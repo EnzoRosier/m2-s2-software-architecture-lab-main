@@ -1,3 +1,4 @@
+import { UserEntity } from 'src/modules/users/domain/entities/user.entity';
 import { PostEntity, PostStatus } from '../entities/post.entity';
 
 // export type PostModel = {
@@ -18,7 +19,7 @@ export type CreatePostModel = {
 export type UpdatePostModel = Partial<CreatePostModel>;
 
 export abstract class PostRepository {
-  public abstract getPosts(): PostEntity[] | Promise<PostEntity[]>;
+  public abstract getPosts(tagsArray: string[], user: UserEntity): PostEntity[] | Promise<PostEntity[]>;
 
   public abstract getPostById(
     id: string,
@@ -32,4 +33,8 @@ export abstract class PostRepository {
   ): void | Promise<void>;
 
   public abstract deletePost(id: string): void | Promise<void>;
+
+  public abstract addTag(id:string, idTag: string);
+
+  public abstract removeTag(id:string, idTag: string);
 }

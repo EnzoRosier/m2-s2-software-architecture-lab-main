@@ -3,9 +3,12 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { Requester } from '../../../shared/auth/infrastructure/decorators/requester.decorator';
@@ -18,10 +21,15 @@ import { DeletePostUseCase } from '../../application/use-cases/delete-post.use-c
 import { GetPostByIdUseCase } from '../../application/use-cases/get-post-by-id.use-case';
 import { GetPostsUseCase } from '../../application/use-cases/get-posts.use-case';
 import { UpdatePostUseCase } from '../../application/use-cases/update-post.use-case';
+import { AddTagPostUseCase } from '../../application/use-cases/add-tag-post.use-case';
+import { RemoveTagPostUseCase } from '../../application/use-cases/remove-tag-post.use-case';
+import { JwtOPtionalAuthGuard } from 'src/modules/shared/auth/infrastructure/guards/jwt-optional-auth.guard';
 
 @Controller('posts')
 export class PostController {
   constructor(
+    private readonly addTagPostUseCase: AddTagPostUseCase,
+    private readonly removeTagPostUseCase: RemoveTagPostUseCase,
     private readonly createPostUseCase: CreatePostUseCase,
     private readonly updatePostUseCase: UpdatePostUseCase,
     private readonly deletePostUseCase: DeletePostUseCase,
@@ -30,9 +38,13 @@ export class PostController {
   ) {}
 
   @Get()
-  public async getPosts() {
-    const posts = await this.getPostsUseCase.execute();
-
+  @UseGuards(JwtOPtionalAuthGuard)
+  public async getPosts(
+    @Requester() user: UserEntity,
+    @Query('tags') tags?: string) {
+    var tagsArray = tags ? tags.split(',') : []
+    const posts = await this.getPostsUseCase.execute(tagsArray, user);
+    
     return posts.map((p) => p.toJSON());
   }
 
@@ -57,6 +69,27 @@ export class PostController {
       { ...input, authorId: user.id },
       user,
     );
+  }
+
+  @Post(':postId/tags/:tagId')
+  @UseGuards(JwtAuthGuard)
+  public async AddTag(
+    @Requester() user: UserEntity,
+    @Param('postId') idPost: string,
+    @Param('tagId') idTag: string,
+  ) {
+    return this.addTagPostUseCase.execute(idPost, idTag, user);
+  }
+
+  @Delete(':postId/tags/:tagId')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async RemoveTag(
+    @Requester() user: UserEntity,
+    @Param('postId') idPost: string,
+    @Param('tagId') idTag: string,
+  ) {
+    return this.removeTagPostUseCase.execute(idPost, idTag, user);
   }
 
   @Patch(':id')

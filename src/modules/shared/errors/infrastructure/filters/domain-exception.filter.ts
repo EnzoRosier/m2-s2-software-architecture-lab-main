@@ -28,6 +28,14 @@ export class DomainExceptionFilter implements ExceptionFilter {
       INVALID_TITLE: 400,
       INVALID_CONTENT: 400,
       POST_NOT_FOUND: 404,
+      TAG_DUPLICATED: 409,
+      TAG_WRONG_NAME_FORMAT: 400,
+      USER_CANNOT_CREATE_TAG: 403,
+      USER_CANNOT_UPDATE_TAG: 403,
+      USER_CANNOT_DELETE_TAG: 403,
+      USER_CANNOT_UPDATE_POST_TAGS: 403,
+      TAG_ON_POST_DUPLICATE: 409,
+      POST_TAG_LINK_NOT_FOUND: 404,
     };
     return statusMap[code] || 400;
   }

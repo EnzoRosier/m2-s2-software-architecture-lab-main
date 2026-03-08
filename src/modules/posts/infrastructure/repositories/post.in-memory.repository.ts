@@ -4,6 +4,12 @@ import { PostRepository } from '../../domain/repositories/post.repository';
 
 @Injectable()
 export class InMemoryPostRepository implements PostRepository {
+  public removeTag(id: string, idTag: string) {
+    throw new Error('Method not implemented.');
+  }
+  public addTag(id: string, idTag: string) {
+    throw new Error('Method not implemented.');
+  }
   private posts: Record<string, unknown>[] = [];
 
   public getPosts(): PostEntity[] {

@@ -21,4 +21,16 @@ export class PostPermissions {
 
     return post.status === 'accepted';
   }
+
+  public canReadAllPosts(): boolean {
+    if (this.role === 'admin' || this.role === 'moderator') return true;
+    return false
+  }
+
+  public canUpdatePostTags(post: PostEntity): boolean {
+    if (post.authorId === this.userId) return true;
+    if (this.role === 'admin') return true;
+
+    return post.status === 'accepted';
+  }
 }
