@@ -182,6 +182,92 @@
         ]
       }
     },
+    "/posts/{postId}/comments": {
+      "post": {
+        "operationId": "PostController_AddComment",
+        "parameters": [
+          {
+            "name": "postId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCommentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Post"
+        ]
+      },
+      "get": {
+        "operationId": "PostController_getComments",
+        "parameters": [
+          {
+            "name": "postId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "order",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Post"
+        ]
+      }
+    },
     "/posts/{postId}/tags/{tagId}": {
       "post": {
         "operationId": "PostController_AddTag",
@@ -466,6 +552,10 @@
         "properties": {}
       },
       "ChangeStatusPostDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateCommentDto": {
         "type": "object",
         "properties": {}
       },

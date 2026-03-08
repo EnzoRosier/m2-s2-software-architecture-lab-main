@@ -36,6 +36,8 @@ export class DomainExceptionFilter implements ExceptionFilter {
       USER_CANNOT_UPDATE_POST_TAGS: 403,
       TAG_ON_POST_DUPLICATE: 409,
       POST_TAG_LINK_NOT_FOUND: 404,
+      USER_CANNOT_COMMENT: 403,
+      COMMENT_WRONG_CONTENT_FORMAT: 400,
     };
     return statusMap[code] || 400;
   }

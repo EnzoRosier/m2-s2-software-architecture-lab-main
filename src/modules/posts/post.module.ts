@@ -14,9 +14,12 @@ import { TagsModule } from '../tags/tags.module';
 import { AddTagPostUseCase } from './application/use-cases/add-tag-post.use-case';
 import { RemoveTagPostUseCase } from './application/use-cases/remove-tag-post.use-case';
 import { ChangeSatusPostUseCase } from './application/use-cases/change-status-post.use-case';
+import { CommentModule } from '../comments/comment.module';
+import { CreateCommentUseCase } from './application/use-cases/create-comment.use-case';
+import { GetPostCommentUseCase } from './application/use-cases/get-post-comment.use-case';
 
 @Module({
-  imports: [AuthModule, LoggingModule, TagsModule],
+  imports: [AuthModule, LoggingModule, TagsModule, CommentModule],
   controllers: [PostController],
   providers: [
     {
@@ -32,6 +35,8 @@ import { ChangeSatusPostUseCase } from './application/use-cases/change-status-po
     AddTagPostUseCase,
     RemoveTagPostUseCase,
     ChangeSatusPostUseCase,
+    CreateCommentUseCase,
+    GetPostCommentUseCase,
   ],
 })
 export class PostModule {}

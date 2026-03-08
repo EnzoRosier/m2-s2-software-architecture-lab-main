@@ -1,11 +1,13 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -26,6 +28,9 @@ import { RemoveTagPostUseCase } from '../../application/use-cases/remove-tag-pos
 import { JwtOPtionalAuthGuard } from 'src/modules/shared/auth/infrastructure/guards/jwt-optional-auth.guard';
 import { ChangeStatusPostDto } from '../../application/dtos/change-status-post.dot';
 import { ChangeSatusPostUseCase } from '../../application/use-cases/change-status-post.use-case';
+import { CreateCommentUseCase } from '../../application/use-cases/create-comment.use-case';
+import { CreateCommentDto } from '../../application/dtos/create-tags.dto';
+import { GetPostCommentUseCase } from '../../application/use-cases/get-post-comment.use-case';
 
 @Controller('posts')
 export class PostController {
@@ -38,6 +43,8 @@ export class PostController {
     private readonly getPostsUseCase: GetPostsUseCase,
     private readonly getPostByIdUseCase: GetPostByIdUseCase,
     private readonly changeSatusPostUseCase: ChangeSatusPostUseCase,
+    private readonly createCommentUseCase: CreateCommentUseCase,
+    private readonly getPostCommentuseCase: GetPostCommentUseCase,
   ) {}
 
   @Get()
@@ -82,6 +89,27 @@ export class PostController {
     @Body() input: ChangeStatusPostDto,
   ) {
     return this.changeSatusPostUseCase.execute(id, input, user);
+  }
+
+  @Post(':postId/comments')
+  @UseGuards(JwtAuthGuard)
+  public async AddComment(
+    @Requester() user: UserEntity,
+    @Body() input: CreateCommentDto,
+    @Param('postId') postId: string,
+  ) {
+    return this.createCommentUseCase.execute(input, user, postId);
+  }
+
+  @Get(':postId/comments')
+  public async getComments(
+    @Param('postId') postId: string,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('pageSize', new DefaultValuePipe(20), ParseIntPipe) pageSize: number,
+    @Query('sortBy') sortBy: string = 'createdAt',
+    @Query('order') order: string = 'desc',
+  ) {
+    return this.getPostCommentuseCase.execute(postId, page, pageSize, sortBy, order);
   }
 
   @Post(':postId/tags/:tagId')
