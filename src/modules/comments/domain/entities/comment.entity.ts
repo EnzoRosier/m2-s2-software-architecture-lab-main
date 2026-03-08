@@ -86,6 +86,7 @@ export class CommentEntity {
 
     if (content) {
       this._content = new CommentContent(content);
+      this._updatedAt = new Date(Date.now())
     }
 
   }

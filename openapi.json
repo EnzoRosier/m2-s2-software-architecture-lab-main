@@ -418,6 +418,39 @@
         ]
       }
     },
+    "/comments/{id}": {
+      "patch": {
+        "operationId": "CommentController_updateComment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCommentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Comment"
+        ]
+      }
+    },
     "/users": {
       "get": {
         "operationId": "UserController_listUsers",

@@ -38,6 +38,8 @@ export class DomainExceptionFilter implements ExceptionFilter {
       POST_TAG_LINK_NOT_FOUND: 404,
       USER_CANNOT_COMMENT: 403,
       COMMENT_WRONG_CONTENT_FORMAT: 400,
+      COMMENT_NOT_FOUND: 404,
+      USER_CANNOT_UPDATE_COMMENT: 403,
     };
     return statusMap[code] || 400;
   }
