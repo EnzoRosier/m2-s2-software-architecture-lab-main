@@ -105,9 +105,11 @@ export class SQLitePostRepository implements PostRepository {
   }
 
   public async updatePost(id: string, input: PostEntity): Promise<void> {
+    var postJson = input.toJSON()
+    delete postJson.tags
     await this.dataSource
       .getRepository(SQLitePostEntity)
-      .update(id, input.toJSON());
+      .update(id, postJson);
   }
 
   public async deletePost(id: string): Promise<void> {

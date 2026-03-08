@@ -33,4 +33,15 @@ export class PostPermissions {
 
     return post.status === 'accepted';
   }
+
+  public canSetToWaiting(post: PostEntity): boolean {
+    if (post.authorId === this.userId && post.status === 'draft') return true;
+    
+    return false
+  }
+
+  public canModeratePost(post: PostEntity): boolean {
+    if (this.role === 'admin' || this.role === 'moderator') return true;
+    return false
+  }
 }

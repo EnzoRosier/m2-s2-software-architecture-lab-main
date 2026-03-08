@@ -24,6 +24,8 @@ import { UpdatePostUseCase } from '../../application/use-cases/update-post.use-c
 import { AddTagPostUseCase } from '../../application/use-cases/add-tag-post.use-case';
 import { RemoveTagPostUseCase } from '../../application/use-cases/remove-tag-post.use-case';
 import { JwtOPtionalAuthGuard } from 'src/modules/shared/auth/infrastructure/guards/jwt-optional-auth.guard';
+import { ChangeStatusPostDto } from '../../application/dtos/change-status-post.dot';
+import { ChangeSatusPostUseCase } from '../../application/use-cases/change-status-post.use-case';
 
 @Controller('posts')
 export class PostController {
@@ -35,6 +37,7 @@ export class PostController {
     private readonly deletePostUseCase: DeletePostUseCase,
     private readonly getPostsUseCase: GetPostsUseCase,
     private readonly getPostByIdUseCase: GetPostByIdUseCase,
+    private readonly changeSatusPostUseCase: ChangeSatusPostUseCase,
   ) {}
 
   @Get()
@@ -71,6 +74,16 @@ export class PostController {
     );
   }
 
+  @Patch('/status/:id')
+  @UseGuards(JwtAuthGuard)
+  public async changeStatus(
+    @Requester() user: UserEntity,
+    @Param('id') id: string,
+    @Body() input: ChangeStatusPostDto,
+  ) {
+    return this.changeSatusPostUseCase.execute(id, input, user);
+  }
+
   @Post(':postId/tags/:tagId')
   @UseGuards(JwtAuthGuard)
   public async AddTag(
@@ -99,6 +112,8 @@ export class PostController {
   ) {
     return this.updatePostUseCase.execute(id, input);
   }
+
+  
 
   @Delete(':id')
   public async deletePost(@Param('id') id: string) {

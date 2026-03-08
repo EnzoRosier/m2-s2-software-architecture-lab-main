@@ -13,6 +13,7 @@ import { SQLitePostRepository } from './infrastructure/repositories/post.sqlite.
 import { TagsModule } from '../tags/tags.module';
 import { AddTagPostUseCase } from './application/use-cases/add-tag-post.use-case';
 import { RemoveTagPostUseCase } from './application/use-cases/remove-tag-post.use-case';
+import { ChangeSatusPostUseCase } from './application/use-cases/change-status-post.use-case';
 
 @Module({
   imports: [AuthModule, LoggingModule, TagsModule],
@@ -30,6 +31,7 @@ import { RemoveTagPostUseCase } from './application/use-cases/remove-tag-post.us
     GetPostByIdUseCase,
     AddTagPostUseCase,
     RemoveTagPostUseCase,
+    ChangeSatusPostUseCase,
   ],
 })
 export class PostModule {}

@@ -5,6 +5,7 @@ import { TagEntity } from 'src/modules/tags/domain/entities/tags.entity';
 import { SQLiteTagEntity } from 'src/modules/tags/infrastructure/entities/tags.sqlite.entity';
 
 export type PostStatus = 'draft' | 'waiting' | 'accepted' | 'rejected';
+const ALL_STATUS: PostStatus[] = ['draft', 'waiting', 'accepted', 'rejected'];
 
 export class PostEntity {
   private _title: PostTitle;
@@ -83,13 +84,19 @@ export class PostEntity {
     );
   }
 
-  public update(title?: string, content?: string) {
+  public update(title?: string, content?: string, status? : string) {
     if (title) {
       this._title = new PostTitle(title);
     }
 
     if (content) {
       this._content = new PostContent(content);
+    }
+
+    if (status) {
+      if (ALL_STATUS.includes(status as PostStatus)) {
+        this._status = status as PostStatus
+      }
     }
   }
 }
