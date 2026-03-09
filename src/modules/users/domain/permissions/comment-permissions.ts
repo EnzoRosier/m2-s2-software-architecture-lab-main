@@ -19,7 +19,7 @@ export class CommentPermissions {
 
   public canDelete(comment: CommentEntity, auhtorPostId: string) {
     if (this.role === 'admin' || this.role === 'moderator') return true;
-    if (comment.postId === this.userId) return true;
+    if (auhtorPostId === this.userId) return true;
     return comment.author.id === this.userId;
   }
 }

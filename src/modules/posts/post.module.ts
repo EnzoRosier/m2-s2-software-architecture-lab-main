@@ -17,6 +17,7 @@ import { ChangeSatusPostUseCase } from './application/use-cases/change-status-po
 import { CommentModule } from '../comments/comment.module';
 import { CreateCommentUseCase } from './application/use-cases/create-comment.use-case';
 import { GetPostCommentUseCase } from './application/use-cases/get-post-comment.use-case';
+import { GetCommentCountUseCase } from './application/use-cases/get-comment-count.use-case';
 
 @Module({
   imports: [AuthModule, LoggingModule, TagsModule, CommentModule],
@@ -26,7 +27,6 @@ import { GetPostCommentUseCase } from './application/use-cases/get-post-comment.
       provide: PostRepository,
       useClass: SQLitePostRepository,
     },
-
     CreatePostUseCase,
     UpdatePostUseCase,
     DeletePostUseCase,
@@ -37,6 +37,7 @@ import { GetPostCommentUseCase } from './application/use-cases/get-post-comment.
     ChangeSatusPostUseCase,
     CreateCommentUseCase,
     GetPostCommentUseCase,
+    GetCommentCountUseCase,
   ],
 })
 export class PostModule {}

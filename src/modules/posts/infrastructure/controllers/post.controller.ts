@@ -31,6 +31,7 @@ import { ChangeSatusPostUseCase } from '../../application/use-cases/change-statu
 import { CreateCommentUseCase } from '../../application/use-cases/create-comment.use-case';
 import { CreateCommentDto } from '../../application/dtos/create-tags.dto';
 import { GetPostCommentUseCase } from '../../application/use-cases/get-post-comment.use-case';
+import { GetCommentCountUseCase } from '../../application/use-cases/get-comment-count.use-case';
 
 @Controller('posts')
 export class PostController {
@@ -45,16 +46,18 @@ export class PostController {
     private readonly changeSatusPostUseCase: ChangeSatusPostUseCase,
     private readonly createCommentUseCase: CreateCommentUseCase,
     private readonly getPostCommentuseCase: GetPostCommentUseCase,
+    private readonly getPostCommentCountUseCase: GetCommentCountUseCase,
   ) {}
 
   @Get()
   @UseGuards(JwtOPtionalAuthGuard)
   public async getPosts(
     @Requester() user: UserEntity,
-    @Query('tags') tags?: string) {
-    var tagsArray = tags ? tags.split(',') : []
+    @Query('tags') tags?: string,
+  ) {
+    var tagsArray = tags ? tags.split(',') : [];
     const posts = await this.getPostsUseCase.execute(tagsArray, user);
-    
+
     return posts.map((p) => p.toJSON());
   }
 
@@ -91,6 +94,13 @@ export class PostController {
     return this.changeSatusPostUseCase.execute(id, input, user);
   }
 
+  @Get(':id/comments/count')
+  public async GetCommentCount(
+    @Param('id') id: string,
+  ) {
+    return this.getPostCommentCountUseCase.execute(id);
+  }
+
   @Post(':postId/comments')
   @UseGuards(JwtAuthGuard)
   public async AddComment(
@@ -109,7 +119,13 @@ export class PostController {
     @Query('sortBy') sortBy: string = 'createdAt',
     @Query('order') order: string = 'desc',
   ) {
-    return this.getPostCommentuseCase.execute(postId, page, pageSize, sortBy, order);
+    return this.getPostCommentuseCase.execute(
+      postId,
+      page,
+      pageSize,
+      sortBy,
+      order,
+    );
   }
 
   @Post(':postId/tags/:tagId')
@@ -140,8 +156,6 @@ export class PostController {
   ) {
     return this.updatePostUseCase.execute(id, input);
   }
-
-  
 
   @Delete(':id')
   public async deletePost(@Param('id') id: string) {

@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '../../../shared/auth/infrastructure/guards/jwt-aut
 import { UserEntity } from '../../../users/domain/entities/user.entity';
 import { CreateCommentDto } from 'src/modules/posts/application/dtos/create-tags.dto';
 import { UpdateCommentUseCase } from '../../application/use-cases/update-comment.use-case';
+import { DeleteCommentUseCase } from '../../application/use-cases/delete-comment.use-case';
 
 
 
@@ -22,6 +23,7 @@ import { UpdateCommentUseCase } from '../../application/use-cases/update-comment
 export class CommentController {
   constructor(
     private readonly updateCommentUseCase: UpdateCommentUseCase,
+    private readonly deleteCommentUseCase: DeleteCommentUseCase,
 
   ) {}
 
@@ -33,6 +35,15 @@ export class CommentController {
     @Body() input: CreateCommentDto,
   ) {
     return this.updateCommentUseCase.execute(id, input, user);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  public async deleteComment(
+    @Requester() user: UserEntity,
+    @Param('id') id: string,
+  ) {
+    return this.deleteCommentUseCase.execute(id, user);
   }
 
 }

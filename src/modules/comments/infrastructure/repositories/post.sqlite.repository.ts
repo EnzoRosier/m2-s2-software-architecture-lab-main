@@ -4,10 +4,22 @@ import { UserEntity } from 'src/modules/users/domain/entities/user.entity';
 import { CommentRepository } from '../../domain/repositories/Comment.repository';
 import { CommentEntity } from '../../domain/entities/comment.entity';
 import { SQLiteCommentEntity } from '../entities/comment.sqlite.entity';
+import { CommentCountDto } from '../../application/dtos/comment-count.dto';
 
 @Injectable()
 export class SQLiteCommentRepository implements CommentRepository {
   constructor(private readonly dataSource: DataSource) {}
+
+  public async getPostCommentCount(idPost: string): Promise<CommentCountDto> {
+    const query = this.dataSource
+      .getRepository(SQLiteCommentEntity)
+      .createQueryBuilder('comment')
+      .where('comment.postId = :idPost', { idPost });
+    let res = new CommentCountDto();
+    res.postId = idPost;
+    res.count = await query.getCount();
+    return res;
+  }
 
   public async getComments(
     tagsIds: string[],
@@ -50,17 +62,18 @@ export class SQLiteCommentRepository implements CommentRepository {
     pageSize: number,
     sortBy: string,
     order: 'ASC' | 'DESC',
-  ) : Promise<CommentEntity[]> {
-    const query = this.dataSource.getRepository(SQLiteCommentEntity)
-    .createQueryBuilder('comment')
-    .leftJoinAndSelect('comment.author', 'author') 
-    .where('comment.postId = :idPost', { idPost })
+  ): Promise<CommentEntity[]> {
+    const query = this.dataSource
+      .getRepository(SQLiteCommentEntity)
+      .createQueryBuilder('comment')
+      .leftJoinAndSelect('comment.author', 'author')
+      .where('comment.postId = :idPost', { idPost });
 
-    query.orderBy(`comment.${sortBy}`, order)
+    query.orderBy(`comment.${sortBy}`, order);
 
     query.skip((page - 1) * pageSize).take(pageSize);
 
-    const data = await query.getMany(); 
+    const data = await query.getMany();
     return data.map((comment) => CommentEntity.reconstitute({ ...comment }));
   }
 }

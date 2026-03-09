@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommentRepository } from '../../domain/repositories/Comment.repository';
 import { CommentEntity } from '../../domain/entities/comment.entity';
+import { CommentCountDto } from '../../application/dtos/comment-count.dto';
 
 @Injectable()
 export class CommentService {
@@ -18,5 +19,11 @@ export class CommentService {
     order: 'ASC' | 'DESC',
   ): Promise<CommentEntity[]> {
     return this.commentRepository.getPostComments(idPost, page, pageSize, sortBy, order)
+  }
+
+  public async getPostCommentCount(
+    idPost: string,
+  ): Promise<CommentCountDto> {
+    return this.commentRepository.getPostCommentCount(idPost)
   }
 }

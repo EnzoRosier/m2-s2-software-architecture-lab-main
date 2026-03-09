@@ -182,6 +182,29 @@
         ]
       }
     },
+    "/posts/{id}/comments/count": {
+      "get": {
+        "operationId": "PostController_GetCommentCount",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Post"
+        ]
+      }
+    },
     "/posts/{postId}/comments": {
       "post": {
         "operationId": "PostController_AddComment",
@@ -441,6 +464,27 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Comment"
+        ]
+      },
+      "delete": {
+        "operationId": "CommentController_deleteComment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": ""

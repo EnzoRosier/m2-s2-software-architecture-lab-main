@@ -1,5 +1,6 @@
 import { UserEntity } from 'src/modules/users/domain/entities/user.entity';
 import { CommentEntity } from '../entities/comment.entity';
+import { CommentCountDto } from '../../application/dtos/comment-count.dto';
 
 export type CreateCommentModel = {
   content: string;
@@ -35,4 +36,8 @@ export abstract class CommentRepository {
     sortBy: string,
     order: string,
   ) : CommentEntity[] | Promise<CommentEntity[]>;
+
+  public abstract getPostCommentCount(
+    idPost: string,
+  ): Promise<CommentCountDto>;
 }
