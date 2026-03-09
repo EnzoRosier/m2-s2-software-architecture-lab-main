@@ -18,6 +18,8 @@ import { CommentModule } from '../comments/comment.module';
 import { CreateCommentUseCase } from './application/use-cases/create-comment.use-case';
 import { GetPostCommentUseCase } from './application/use-cases/get-post-comment.use-case';
 import { GetCommentCountUseCase } from './application/use-cases/get-comment-count.use-case';
+import { PostService } from './infrastructure/services/post.service';
+import { ChangeSlugPostUseCase } from './application/use-cases/change-slug-post.use-case';
 
 @Module({
   imports: [AuthModule, LoggingModule, TagsModule, CommentModule],
@@ -38,6 +40,8 @@ import { GetCommentCountUseCase } from './application/use-cases/get-comment-coun
     CreateCommentUseCase,
     GetPostCommentUseCase,
     GetCommentCountUseCase,
+    ChangeSlugPostUseCase,
+    PostService,
   ],
 })
 export class PostModule {}

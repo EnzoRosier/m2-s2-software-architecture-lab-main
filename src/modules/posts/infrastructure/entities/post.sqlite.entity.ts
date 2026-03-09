@@ -20,6 +20,9 @@ export class SQLitePostEntity {
   @Column()
   authorId: string;
 
+  @Column({nullable:true})
+  slug: string;
+
   @ManyToMany(() => SQLiteTagEntity, (tag) => tag.posts)
   @JoinTable({
     name: 'post_tag_id',

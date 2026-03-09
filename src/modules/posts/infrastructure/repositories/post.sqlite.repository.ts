@@ -9,6 +9,14 @@ import { UserEntity } from 'src/modules/users/domain/entities/user.entity';
 export class SQLitePostRepository implements PostRepository {
   constructor(private readonly dataSource: DataSource) {}
 
+  public async getBySlug(slug: string) {
+    const post = await this.dataSource
+      .getRepository(SQLitePostEntity)
+      .findOne({ where: { slug:slug }, relations: {tags: true}});
+
+    return post ? PostEntity.reconstitute({ ...post }) : undefined;
+  }
+
   public async addTag(id: string, idTag: string) {
     await this.dataSource
       .getRepository(SQLitePostEntity)

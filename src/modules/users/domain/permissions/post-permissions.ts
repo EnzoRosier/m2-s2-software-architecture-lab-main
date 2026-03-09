@@ -44,4 +44,9 @@ export class PostPermissions {
     if (this.role === 'admin' || this.role === 'moderator') return true;
     return false
   }
+
+  public canChangePostSlug(post: PostEntity): boolean {
+    if (this.role === 'admin') return true;
+    return post.authorId === this.userId
+  }
 }

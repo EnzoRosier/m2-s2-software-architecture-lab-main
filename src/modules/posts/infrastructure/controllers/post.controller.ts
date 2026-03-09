@@ -32,6 +32,8 @@ import { CreateCommentUseCase } from '../../application/use-cases/create-comment
 import { CreateCommentDto } from '../../application/dtos/create-tags.dto';
 import { GetPostCommentUseCase } from '../../application/use-cases/get-post-comment.use-case';
 import { GetCommentCountUseCase } from '../../application/use-cases/get-comment-count.use-case';
+import { ChangeSlugDto } from '../../application/dtos/change-slug-post.dot';
+import { ChangeSlugPostUseCase } from '../../application/use-cases/change-slug-post.use-case';
 
 @Controller('posts')
 export class PostController {
@@ -47,6 +49,7 @@ export class PostController {
     private readonly createCommentUseCase: CreateCommentUseCase,
     private readonly getPostCommentuseCase: GetPostCommentUseCase,
     private readonly getPostCommentCountUseCase: GetCommentCountUseCase,
+    private readonly changeSlugPostUseCase: ChangeSlugPostUseCase,
   ) {}
 
   @Get()
@@ -82,6 +85,16 @@ export class PostController {
       { ...input, authorId: user.id },
       user,
     );
+  }
+
+  @Post(':id/slug')
+  @UseGuards(JwtAuthGuard)
+  public async changeSlug(
+    @Requester() user: UserEntity,
+    @Body() input: ChangeSlugDto,
+    @Param('id') id: string,
+  ) {
+    return this.changeSlugPostUseCase.execute(id, input, user)
   }
 
   @Patch('/status/:id')

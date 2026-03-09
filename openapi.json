@@ -149,6 +149,39 @@
         ]
       }
     },
+    "/posts/{id}/slug": {
+      "post": {
+        "operationId": "PostController_changeSlug",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeSlugDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Post"
+        ]
+      }
+    },
     "/posts/status/{id}": {
       "patch": {
         "operationId": "PostController_changeStatus",
@@ -625,6 +658,10 @@
     },
     "schemas": {
       "LoginDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ChangeSlugDto": {
         "type": "object",
         "properties": {}
       },

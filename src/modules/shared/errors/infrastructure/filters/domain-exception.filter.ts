@@ -40,6 +40,9 @@ export class DomainExceptionFilter implements ExceptionFilter {
       COMMENT_WRONG_CONTENT_FORMAT: 400,
       COMMENT_NOT_FOUND: 404,
       USER_CANNOT_UPDATE_COMMENT: 403,
+      SLUG_DUPLICATE: 409,
+      INVALID_SLUG_FORMAT: 403,
+      USER_CANNOT_CHANGE_SLUG: 403,
     };
     return statusMap[code] || 400;
   }

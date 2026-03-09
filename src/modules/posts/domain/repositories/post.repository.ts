@@ -37,4 +37,6 @@ export abstract class PostRepository {
   public abstract addTag(id:string, idTag: string);
 
   public abstract removeTag(id:string, idTag: string);
+
+  public abstract getBySlug(slug:string)
 }

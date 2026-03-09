@@ -3,6 +3,8 @@ import { LoggingService } from '../../../shared/logging/domain/services/logging.
 import { UserEntity } from '../../../users/domain/entities/user.entity';
 import { PostEntity } from '../../domain/entities/post.entity';
 import { PostRepository } from '../../domain/repositories/post.repository';
+import { PostService } from '../../infrastructure/services/post.service';
+import { PostNotFoundException } from '../../domain/exceptions/post-not-found.exception';
 
 @Injectable()
 export class GetPostByIdUseCase {
@@ -16,8 +18,12 @@ export class GetPostByIdUseCase {
     user: UserEntity,
   ): Promise<PostEntity | undefined> {
     this.loggingService.log('GetPostByIdUseCase.execute');
-    const post = await this.postRepository.getPostById(id);
-    if (!post) return;
+
+    let post = await this.postRepository.getBySlug(id);
+    if (!post) {
+      post = await this.postRepository.getPostById(id);
+      if (!post) throw new PostNotFoundException();
+    }
 
     if (!user.permissions.posts.canReadPost(post)) {
       throw new Error('Cannot read this post');

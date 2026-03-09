@@ -3,6 +3,7 @@ import { PostContent } from '../value-objects/post-content.value-object';
 import { PostTitle } from '../value-objects/post-title.value-object';
 import { TagEntity } from 'src/modules/tags/domain/entities/tags.entity';
 import { SQLiteTagEntity } from 'src/modules/tags/infrastructure/entities/tags.sqlite.entity';
+import { PostSlug } from '../value-objects/post-slug.value-object';
 
 export type PostStatus = 'draft' | 'waiting' | 'accepted' | 'rejected';
 const ALL_STATUS: PostStatus[] = ['draft', 'waiting', 'accepted', 'rejected'];
@@ -13,6 +14,7 @@ export class PostEntity {
   private _authorId: string;
   private _status: PostStatus;
   private _tags: TagEntity[];
+  private _slug: PostSlug;
 
   private constructor(
     readonly id: string,
@@ -21,12 +23,18 @@ export class PostEntity {
     authorId: string,
     status: PostStatus,
     tags: TagEntity[],
+    slug: PostSlug,
   ) {
     this._title = title;
     this._content = content;
     this._authorId = authorId;
     this._status = status;
     this._tags = tags;
+    this._slug = slug;
+  }
+
+  public get title() {
+    return this._title;
   }
 
   public get status() {
@@ -55,6 +63,7 @@ export class PostEntity {
       input.authorId as string,
       input.status as PostStatus,
       tags as TagEntity[],
+      new PostSlug(input.slug as string),
     );
   }
 
@@ -66,6 +75,7 @@ export class PostEntity {
       status: this._status,
       authorId: this._authorId,
       tags: this._tags,
+      slug: this._slug.toString(),
     };
   }
 
@@ -73,6 +83,7 @@ export class PostEntity {
     title: string,
     content: string,
     authorId: string,
+    slug: string
   ): PostEntity {
     return new PostEntity(
       v4(),
@@ -81,10 +92,11 @@ export class PostEntity {
       authorId,
       'draft',
       [],
+      new PostSlug(slug)
     );
   }
 
-  public update(title?: string, content?: string, status? : string) {
+  public update(title?: string, content?: string, status? : string, slug? : string) {
     if (title) {
       this._title = new PostTitle(title);
     }
@@ -97,6 +109,10 @@ export class PostEntity {
       if (ALL_STATUS.includes(status as PostStatus)) {
         this._status = status as PostStatus
       }
+    }
+
+    if (slug) {
+      this._slug = new PostSlug(slug);
     }
   }
 }
