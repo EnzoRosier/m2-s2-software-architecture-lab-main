@@ -34,9 +34,9 @@ export class TagsController {
 
   @Get()
   public async getTags() {
-    const posts = await this.getTagsUseCase.execute();
+    const tags = await this.getTagsUseCase.execute();
 
-    return posts.map((p) => p.toJSON());
+    return tags;
   }
 
   @Post()

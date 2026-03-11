@@ -29,9 +29,8 @@ export class PostPermissions {
 
   public canUpdatePostTags(post: PostEntity): boolean {
     if (post.authorId === this.userId) return true;
-    if (this.role === 'admin') return true;
+    return (this.role === 'admin');
 
-    return post.status === 'accepted';
   }
 
   public canSetToWaiting(post: PostEntity): boolean {
