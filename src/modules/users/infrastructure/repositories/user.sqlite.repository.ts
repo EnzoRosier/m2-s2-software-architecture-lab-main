@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+import { DataSource, In } from 'typeorm';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { SQLiteUserEntity } from '../entities/user.sqlite.entity';
@@ -10,6 +10,12 @@ export class SQLiteUserRepository implements UserRepository {
 
   public async listUsers(): Promise<UserEntity[]> {
     const users = await this.dataSource.getRepository(SQLiteUserEntity).find();
+
+    return users.map((user) => UserEntity.reconstitute({ ...user }));
+  }
+
+  public async listModsAdmins(): Promise<UserEntity[]> {
+    const users = await this.dataSource.getRepository(SQLiteUserEntity).find({where: {role: In(['admin', 'moderator'])}});
 
     return users.map((user) => UserEntity.reconstitute({ ...user }));
   }

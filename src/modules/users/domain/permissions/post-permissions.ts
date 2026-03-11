@@ -35,7 +35,7 @@ export class PostPermissions {
   }
 
   public canSetToWaiting(post: PostEntity): boolean {
-    if (post.authorId === this.userId && post.status === 'draft') return true;
+    if (post.authorId === this.userId && (post.status === 'draft' || post.status === 'waiting')) return true;
     
     return false
   }

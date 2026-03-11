@@ -87,7 +87,7 @@ export class PostController {
     );
   }
 
-  @Post(':id/slug')
+  @Patch(':id/slug')
   @UseGuards(JwtAuthGuard)
   public async changeSlug(
     @Requester() user: UserEntity,

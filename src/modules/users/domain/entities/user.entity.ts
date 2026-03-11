@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import { Permissions } from '../permissions/permissions';
 import { UserUsername } from '../value-objects/user-username.value-object';
+import { SQLiteUserEntity } from '../../infrastructure/entities/user.sqlite.entity';
 
 export type UserRole = 'user' | 'moderator' | 'admin' | 'writer';
 
@@ -38,6 +39,10 @@ export class UserEntity {
       username: this._username.toString(),
       password: this._password,
     };
+  }
+
+  public get username() {
+    return this._username;
   }
 
   public update(username?: string, role?: UserRole): void {

@@ -43,6 +43,12 @@ export class DomainExceptionFilter implements ExceptionFilter {
       SLUG_DUPLICATE: 409,
       INVALID_SLUG_FORMAT: 403,
       USER_CANNOT_CHANGE_SLUG: 403,
+      USER_NOT_FOUND: 404,
+      CANNOT_SELF_FOLLOW: 400,
+      ALREADY_FOLLOWING: 409,
+      USER_NOT_FOLLOWED: 404,
+      NOTIFICATION_NOT_FOUND: 404,
+      CANNOT_READ_NOTIFICATION: 403
     };
     return statusMap[code] || 400;
   }

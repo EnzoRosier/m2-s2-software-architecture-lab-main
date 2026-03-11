@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { type UserRole } from '../../domain/entities/user.entity';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
+import { UserEntity, type UserRole } from '../../domain/entities/user.entity';
 
 @Entity('users')
 export class SQLiteUserEntity {

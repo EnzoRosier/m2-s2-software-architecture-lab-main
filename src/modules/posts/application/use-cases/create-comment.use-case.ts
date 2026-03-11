@@ -8,6 +8,7 @@ import { PostRepository } from '../../domain/repositories/post.repository';
 import { PostNotFoundException } from '../../domain/exceptions/post-not-found.exception';
 import { CommentService } from 'src/modules/comments/infrastructure/services/comment.service';
 import { UserCannotCommentException } from '../../domain/exceptions/user-cannot-comment.exception';
+import { CommentCreatedEvent } from '../../domain/events/comment-posted.event';
 
 @Injectable()
 export class CreateCommentUseCase {
@@ -17,20 +18,31 @@ export class CreateCommentUseCase {
     private readonly commentService: CommentService,
   ) {}
 
-  public async execute(input: CreateCommentDto, user: UserEntity, postId: string): Promise<CommentEntity> {
-    const post = await this.postRepository.getPostById(postId)
+  public async execute(
+    input: CreateCommentDto,
+    user: UserEntity,
+    postId: string,
+  ): Promise<CommentEntity> {
+    const post = await this.postRepository.getPostById(postId);
     if (!post) {
-      throw new PostNotFoundException()
+      throw new PostNotFoundException();
     }
 
     if (!user.permissions.comments.canCreate(post)) {
-      throw new UserCannotCommentException()
+      throw new UserCannotCommentException();
     }
 
     const comment = CommentEntity.create(input.content, user, postId);
 
     await this.commentService.createComment(comment);
 
-    return comment
+    this.eventEmitter.emit(CommentCreatedEvent, {
+      postTitle: post.title,
+      commentAuthor: user.username,
+      postId: post.id,
+      userId: user.id,
+    });
+
+    return comment;
   }
 }

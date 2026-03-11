@@ -8,9 +8,15 @@ import { UpdateUserUseCase } from './application/use-cases/update-user.use-case'
 import { UserRepository } from './domain/repositories/user.repository';
 import { UserController } from './infrastructure/controllers/user.controller';
 import { SQLiteUserRepository } from './infrastructure/repositories/user.sqlite.repository';
+import { FollowUserUseCase } from './application/use-cases/follow-user.use-case';
+import { FollowModule } from '../follows/follows.module';
+import { UnfollowUserUseCase } from './application/use-cases/unfollow-user.use-case';
+import { UserService } from './infrastructure/services/user.service';
+import { GetUserFollowerUseCase } from './application/use-cases/get-user-follower.use-case';
+import { GetUserFollowingUseCase } from './application/use-cases/get-user-following.use-case';
 
 @Module({
-  imports: [LoggingModule],
+  imports: [LoggingModule, FollowModule],
   controllers: [UserController],
   providers: [
     {
@@ -22,6 +28,12 @@ import { SQLiteUserRepository } from './infrastructure/repositories/user.sqlite.
     DeleteUserUseCase,
     ListUsersUseCase,
     GetUserByIdUseCase,
+    FollowUserUseCase,
+    UnfollowUserUseCase,
+    UserService,
+    GetUserFollowerUseCase,
+    GetUserFollowingUseCase
   ],
+  exports: [UserService]
 })
 export class UserModule {}
