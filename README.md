@@ -1,5 +1,8 @@
 # End of Module Project
 
+## Project Description
+This is a post manager with the ability to add comment, moderate, use tags, have notifications...
+
 ## You need : 
 node.js, nestjs
 
@@ -12,6 +15,9 @@ NODE_ENV=
 You can also run "npm run seed" create a database with basic informations
 
 run "npm run build" 
+
+## Documentation
+Use "/api#/" to get to the documentation
 
 ## Seed data : 
 Users : 
