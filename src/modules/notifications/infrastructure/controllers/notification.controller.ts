@@ -20,6 +20,7 @@ import { CreateCommentDto } from 'src/modules/posts/application/dtos/create-tags
 import { GetNotificationUseCase } from '../../application/use-cases/get-notification.use-case';
 import { ReadSingleNotificationUseCase } from '../../application/use-cases/read-single-notification.use-case';
 import { ReadAllNotificationsUseCase } from '../../application/use-cases/read-all-notifications.use-case';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('notifications')
 export class NotificationController {
@@ -29,9 +30,11 @@ export class NotificationController {
     private readonly readAllNotificationsUseCase: ReadAllNotificationsUseCase,
   ) {}
 
+  @ApiOperation({ summary: 'Get user notification.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
   @Get()
   @UseGuards(JwtAuthGuard)
-  public async updateComment(
+  public async getNotification(
     @Requester() user: UserEntity,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('pageSize', new DefaultValuePipe(20), ParseIntPipe) pageSize: number,
@@ -40,6 +43,11 @@ export class NotificationController {
     return this.getNotificationUseCase.execute(user.id, page, pageSize, isRead);
   }
 
+  @ApiOperation({ summary: 'Mark a notification as read.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Comment not found.' })
   @Patch(':id/read')
   @UseGuards(JwtAuthGuard)
   public async ReadSingleNotification(
@@ -49,11 +57,11 @@ export class NotificationController {
     return this.readSingleNotificationUseCase.execute(user, id);
   }
 
+  @ApiOperation({ summary: 'Mark all notification as read.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
   @Patch('mark-all-read')
   @UseGuards(JwtAuthGuard)
-  public async ReadAllNotification(
-    @Requester() user: UserEntity,
-  ) {
+  public async ReadAllNotification(@Requester() user: UserEntity) {
     return this.readAllNotificationsUseCase.execute(user);
   }
 }

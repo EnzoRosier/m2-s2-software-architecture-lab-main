@@ -35,6 +35,7 @@ import { GetCommentCountUseCase } from '../../application/use-cases/get-comment-
 import { ChangeSlugDto } from '../../application/dtos/change-slug-post.dot';
 import { ChangeSlugPostUseCase } from '../../application/use-cases/change-slug-post.use-case';
 import { AddCommentDto } from '../../application/dtos/add-comment.dto';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('posts')
 export class PostController {
@@ -53,6 +54,8 @@ export class PostController {
     private readonly changeSlugPostUseCase: ChangeSlugPostUseCase,
   ) {}
 
+  @ApiOperation({ summary: 'Get posts.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
   @Get()
   @UseGuards(JwtOPtionalAuthGuard)
   public async getPosts(
@@ -65,6 +68,10 @@ export class PostController {
     return posts.map((p) => p.toJSON());
   }
 
+  @ApiOperation({ summary: 'Get post with id or slug.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Post not found.' })
   @Get(':id')
   @UseGuards(JwtOPtionalAuthGuard)
   public async getPostById(
@@ -76,6 +83,10 @@ export class PostController {
     return post?.toJSON();
   }
 
+  @ApiOperation({ summary: 'Create post.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 401, description: 'Unnauthorized.' })
   @Post()
   @UseGuards(JwtAuthGuard)
   public async createPost(
@@ -88,6 +99,13 @@ export class PostController {
     );
   }
 
+  @ApiOperation({ summary: 'Update slug.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Post not found.' })
+  @ApiResponse({ status: 409, description: 'Conflict.' })
   @Patch(':id/slug')
   @UseGuards(JwtAuthGuard)
   public async changeSlug(
@@ -98,6 +116,12 @@ export class PostController {
     return this.changeSlugPostUseCase.execute(id, input, user);
   }
 
+  @ApiOperation({ summary: 'Update status.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Post not found.' })
   @Patch('/status/:id')
   @UseGuards(JwtAuthGuard)
   public async changeStatus(
@@ -108,11 +132,20 @@ export class PostController {
     return this.changeSatusPostUseCase.execute(id, input, user);
   }
 
+  @ApiOperation({ summary: 'Get comment count.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+
   @Get(':id/comments/count')
   public async GetCommentCount(@Param('id') id: string) {
     return this.getPostCommentCountUseCase.execute(id);
   }
 
+  @ApiOperation({ summary: 'Create a comment.' })
+  @ApiResponse({ status: 201, description: 'Successfull.' })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Post not found.' })
   @Post(':postId/comments')
   @UseGuards(JwtAuthGuard)
   public async AddComment(
@@ -140,6 +173,9 @@ export class PostController {
     return res;
   }
 
+  @ApiOperation({ summary: 'Get Comments.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+  @ApiResponse({ status: 404, description: 'Post not found.' })
   @Get(':postId/comments')
   public async getComments(
     @Param('postId') postId: string,
@@ -157,6 +193,12 @@ export class PostController {
     );
   }
 
+  @ApiOperation({ summary: 'Create tag.' })
+  @ApiResponse({ status: 201, description: 'Successfull.' })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 409, description: 'Conflict.' })
   @Post(':postId/tags/:tagId')
   @UseGuards(JwtAuthGuard)
   public async AddTag(
@@ -167,6 +209,10 @@ export class PostController {
     return this.addTagPostUseCase.execute(idPost, idTag, user);
   }
 
+  @ApiOperation({ summary: 'Delete tag.' })
+  @ApiResponse({ status: 204, description: 'Successfull.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Post not found.' })
   @Delete(':postId/tags/:tagId')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -178,6 +224,12 @@ export class PostController {
     return this.removeTagPostUseCase.execute(idPost, idTag, user);
   }
 
+  @ApiOperation({ summary: 'Update post.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Post not found.' })
   @Patch(':id')
   public async updatePost(
     @Param('id') id: string,
@@ -186,6 +238,11 @@ export class PostController {
     return this.updatePostUseCase.execute(id, input);
   }
 
+  @ApiOperation({ summary: 'Update post.' })
+  @ApiResponse({ status: 202, description: 'Successfull.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Post not found.' })
   @Delete(':id')
   public async deletePost(@Param('id') id: string) {
     return this.deletePostUseCase.execute(id);

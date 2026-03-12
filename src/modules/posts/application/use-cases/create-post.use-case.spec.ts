@@ -78,7 +78,7 @@ describe('CreatePostUseCase', () => {
     const input: CreatePostDto = {
       title: "titre",
       content: "content",
-      authorId: "writer-id",
+      authorId: "reader-id",
     };
 
     expect(useCase.execute(input, author)).rejects.toThrow(UserCannotCreatePostException);

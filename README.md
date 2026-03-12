@@ -20,3 +20,6 @@ moderator => username = moderator, password = moderator
 writer => username = writer, password = writer
 
 ## Tests
+
+"npm run test"
+NOTE : I had a problem where i couldn't do e2e tests because of an incompatibility between jest and v4, instead I did 5 route tests and 3 more unit tests

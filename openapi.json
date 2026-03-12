@@ -54,9 +54,10 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
           }
         },
+        "summary": "Get posts.",
         "tags": [
           "Post"
         ]
@@ -65,10 +66,17 @@
         "operationId": "PostController_createPost",
         "parameters": [],
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "Successfull."
+          },
+          "401": {
+            "description": "Unnauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
           }
         },
+        "summary": "Create post.",
         "tags": [
           "Post"
         ]
@@ -89,9 +97,16 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Post not found."
           }
         },
+        "summary": "Get post with id or slug.",
         "tags": [
           "Post"
         ]
@@ -120,9 +135,22 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Post not found."
           }
         },
+        "summary": "Update post.",
         "tags": [
           "Post"
         ]
@@ -140,10 +168,20 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": ""
+          "202": {
+            "description": "Successfull."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Post not found."
           }
         },
+        "summary": "Update post.",
         "tags": [
           "Post"
         ]
@@ -174,9 +212,25 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Post not found."
+          },
+          "409": {
+            "description": "Conflict."
           }
         },
+        "summary": "Update slug.",
         "tags": [
           "Post"
         ]
@@ -207,9 +261,22 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Post not found."
           }
         },
+        "summary": "Update status.",
         "tags": [
           "Post"
         ]
@@ -230,9 +297,10 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
           }
         },
+        "summary": "Get comment count.",
         "tags": [
           "Post"
         ]
@@ -263,9 +331,22 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Post not found."
           }
         },
+        "summary": "Create a comment.",
         "tags": [
           "Post"
         ]
@@ -316,9 +397,13 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "404": {
+            "description": "Post not found."
           }
         },
+        "summary": "Get Comments.",
         "tags": [
           "Post"
         ]
@@ -347,9 +432,22 @@
         ],
         "responses": {
           "201": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "409": {
+            "description": "Conflict."
           }
         },
+        "summary": "Create tag.",
         "tags": [
           "Post"
         ]
@@ -376,9 +474,16 @@
         ],
         "responses": {
           "204": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Post not found."
           }
         },
+        "summary": "Delete tag.",
         "tags": [
           "Post"
         ]
@@ -390,9 +495,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
           }
         },
+        "summary": "Get tags.",
         "tags": [
           "Tags"
         ]
@@ -412,9 +518,22 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "409": {
+            "description": "Conflict"
           }
         },
+        "summary": "Create tag.",
         "tags": [
           "Tags"
         ]
@@ -445,9 +564,25 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Tag not found."
+          },
+          "409": {
+            "description": "Conflict."
           }
         },
+        "summary": "Update tag.",
         "tags": [
           "Tags"
         ]
@@ -466,9 +601,19 @@
         ],
         "responses": {
           "204": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Tag not found."
           }
         },
+        "summary": "Delete tag.",
         "tags": [
           "Tags"
         ]
@@ -499,9 +644,22 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Comment not found."
           }
         },
+        "summary": "Update comment.",
         "tags": [
           "Comment"
         ]
@@ -519,10 +677,20 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": ""
+          "204": {
+            "description": "Successfull."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Comment not found."
           }
         },
+        "summary": "Delete comment.",
         "tags": [
           "Comment"
         ]
@@ -578,10 +746,23 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "Successfull."
+          },
+          "400": {
+            "description": "Bad Request."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "User not found."
+          },
+          "409": {
+            "description": "Conflict."
           }
         },
+        "summary": "Follow User.",
         "tags": [
           "User"
         ]
@@ -600,9 +781,16 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "404": {
+            "description": "User not found or not currently following."
           }
         },
+        "summary": "Unfollow User.",
         "tags": [
           "User"
         ]
@@ -639,9 +827,10 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
           }
         },
+        "summary": "Get Follower User.",
         "tags": [
           "User"
         ]
@@ -678,9 +867,10 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
           }
         },
+        "summary": "Get Following User.",
         "tags": [
           "User"
         ]
@@ -763,7 +953,7 @@
     },
     "/notifications": {
       "get": {
-        "operationId": "NotificationController_updateComment",
+        "operationId": "NotificationController_getNotification",
         "parameters": [
           {
             "name": "page",
@@ -792,9 +982,10 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
           }
         },
+        "summary": "Get user notification.",
         "tags": [
           "Notification"
         ]
@@ -815,9 +1006,19 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
+          },
+          "401": {
+            "description": "Unauthorized."
+          },
+          "403": {
+            "description": "Forbidden."
+          },
+          "404": {
+            "description": "Comment not found."
           }
         },
+        "summary": "Mark a notification as read.",
         "tags": [
           "Notification"
         ]
@@ -829,9 +1030,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfull."
           }
         },
+        "summary": "Mark all notification as read.",
         "tags": [
           "Notification"
         ]

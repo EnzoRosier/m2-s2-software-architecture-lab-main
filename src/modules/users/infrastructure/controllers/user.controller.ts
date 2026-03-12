@@ -25,6 +25,7 @@ import { FollowUserUseCase } from '../../application/use-cases/follow-user.use-c
 import { UnfollowUserUseCase } from '../../application/use-cases/unfollow-user.use-case';
 import { GetUserFollowerUseCase } from '../../application/use-cases/get-user-follower.use-case';
 import { GetUserFollowingUseCase } from '../../application/use-cases/get-user-following.use-case';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('users')
 export class UserController {
@@ -46,6 +47,12 @@ export class UserController {
     return users.map((u) => u.toJSON());
   }
 
+  @ApiOperation({ summary: 'Follow User.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  @ApiResponse({ status: 409, description: 'Conflict.' })
   @Post(':id/follow')
   @UseGuards(JwtAuthGuard)
   public async followUser(
@@ -55,6 +62,8 @@ export class UserController {
     return await this.followUserUseCase.execute(id, user);
   }
 
+  @ApiOperation({ summary: 'Get Follower User.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
   @Get(':id/followers')
   public async getUserFollowers(
     @Param('id') id: string,
@@ -64,6 +73,8 @@ export class UserController {
     return await this.getUserFollowersUseCase.execute(id, page, pageSize);
   }
 
+  @ApiOperation({ summary: 'Get Following User.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
   @Get(':id/following')
   public async getUserFollowings(
     @Param('id') id: string,
@@ -72,7 +83,11 @@ export class UserController {
   ) {
     return await this.getUserFollowingsUseCase.execute(id, page, pageSize);
   }
-
+  
+  @ApiOperation({ summary: 'Unfollow User.' })
+  @ApiResponse({ status: 200, description: 'Successfull.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 404, description: 'User not found or not currently following.' })
   @Delete(':id/follow')
   @UseGuards(JwtAuthGuard)
   public async unfollowUser(
