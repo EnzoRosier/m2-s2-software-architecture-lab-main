@@ -40,7 +40,7 @@ export class CreateCommentUseCase {
       postTitle: post.title,
       commentAuthor: user.username,
       postId: post.id,
-      userId: user.id,
+      userId: post.authorId,
     });
     
     return comment;

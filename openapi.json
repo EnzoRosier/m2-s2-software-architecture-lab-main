@@ -647,7 +647,7 @@
         ]
       }
     },
-    "/users/{id}/followings": {
+    "/users/{id}/following": {
       "get": {
         "operationId": "UserController_getUserFollowings",
         "parameters": [

@@ -21,6 +21,9 @@ export class GetUserFollowerUseCase {
 
     let res = new GetUserFollowerDto()
     res.followers = []
+    res.page = page;
+    res.pageSize = pageSize;
+    res.total = follows.length
     for(const follow of follows ) {
       let i = new FollowDto()
       const user = await this.userRepository.getUserById(follow.followerId)

@@ -13,7 +13,7 @@ export class NotificationPostDeletedEventHandler {
     const notification = NotificationEntity.create(
       'POST_DELETED',
       'Your post was deleted',
-      `A moderator rejected your post "${payload.title}"`,
+      `A moderator deleted your post "${payload.title}"`,
       `/posts`,
       payload.userId,
     );

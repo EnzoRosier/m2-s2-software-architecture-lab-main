@@ -64,7 +64,7 @@ export class UserController {
     return await this.getUserFollowersUseCase.execute(id, page, pageSize);
   }
 
-  @Get(':id/followings')
+  @Get(':id/following')
   public async getUserFollowings(
     @Param('id') id: string,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
