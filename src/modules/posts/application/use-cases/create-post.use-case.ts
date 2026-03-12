@@ -17,7 +17,7 @@ export class CreatePostUseCase {
     private readonly postService: PostService,
   ) {}
 
-  public async execute(input: CreatePostDto, user: UserEntity): Promise<void> {
+  public async execute(input: CreatePostDto, user: UserEntity): Promise<PostEntity> {
     if (!user.permissions.posts.canCreate()) {
       throw new UserCannotCreatePostException();
     }
@@ -42,5 +42,7 @@ export class CreatePostUseCase {
       postId: post.id,
       authorId: input.authorId,
     });
+
+    return post;
   }
 }
