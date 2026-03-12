@@ -42,7 +42,7 @@ export class CreateCommentUseCase {
       postId: post.id,
       userId: user.id,
     });
-
+    
     return comment;
   }
 }

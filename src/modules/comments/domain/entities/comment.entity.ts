@@ -38,6 +38,14 @@ export class CommentEntity {
     return this._content;
   }
 
+  public get createdAt() {
+    return this._createdAt;
+  }
+
+  public get updatedAt() {
+    return this._updatedAt;
+  }
+
   public static reconstitute(input: Record<string, unknown>) {
     var tags: TagEntity[] = [];
     if (input.tags) {

@@ -48,7 +48,8 @@ export class DomainExceptionFilter implements ExceptionFilter {
       ALREADY_FOLLOWING: 409,
       USER_NOT_FOLLOWED: 404,
       NOTIFICATION_NOT_FOUND: 404,
-      CANNOT_READ_NOTIFICATION: 403
+      CANNOT_READ_NOTIFICATION: 403,
+      USER_CANNOT_READ_POST: 403,
     };
     return statusMap[code] || 400;
   }

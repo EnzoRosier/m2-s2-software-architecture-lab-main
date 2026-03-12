@@ -34,6 +34,7 @@ import { GetPostCommentUseCase } from '../../application/use-cases/get-post-comm
 import { GetCommentCountUseCase } from '../../application/use-cases/get-comment-count.use-case';
 import { ChangeSlugDto } from '../../application/dtos/change-slug-post.dot';
 import { ChangeSlugPostUseCase } from '../../application/use-cases/change-slug-post.use-case';
+import { AddCommentDto } from '../../application/dtos/add-comment.dto';
 
 @Controller('posts')
 export class PostController {
@@ -65,7 +66,7 @@ export class PostController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtOPtionalAuthGuard)
   public async getPostById(
     @Requester() user: UserEntity,
     @Param('id') id: string,
@@ -94,7 +95,7 @@ export class PostController {
     @Body() input: ChangeSlugDto,
     @Param('id') id: string,
   ) {
-    return this.changeSlugPostUseCase.execute(id, input, user)
+    return this.changeSlugPostUseCase.execute(id, input, user);
   }
 
   @Patch('/status/:id')
@@ -108,9 +109,7 @@ export class PostController {
   }
 
   @Get(':id/comments/count')
-  public async GetCommentCount(
-    @Param('id') id: string,
-  ) {
+  public async GetCommentCount(@Param('id') id: string) {
     return this.getPostCommentCountUseCase.execute(id);
   }
 
@@ -121,7 +120,24 @@ export class PostController {
     @Body() input: CreateCommentDto,
     @Param('postId') postId: string,
   ) {
-    return this.createCommentUseCase.execute(input, user, postId);
+    const comment = await this.createCommentUseCase.execute(
+      input,
+      user,
+      postId,
+    );
+    let res: AddCommentDto = {
+      id: comment.id,
+      postId: comment.postId,
+      content: comment.content.toString(),
+      author: {
+        id: comment.author.id,
+        username: comment.author.username.toString(),
+      },
+      createdAt: comment.createdAt.toString(),
+      updatedAt: comment.updatedAt.toString(),
+    };
+
+    return res;
   }
 
   @Get(':postId/comments')

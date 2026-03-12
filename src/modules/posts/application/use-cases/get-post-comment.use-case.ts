@@ -7,6 +7,7 @@ import { UserEntity } from 'src/modules/users/domain/entities/user.entity';
 import { CommentService } from 'src/modules/comments/infrastructure/services/comment.service';
 import { PostNotFoundException } from '../../domain/exceptions/post-not-found.exception';
 import { CommentEntity } from 'src/modules/comments/domain/entities/comment.entity';
+import { GetCommentsDto } from '../dtos/get-comments.dto';
 
 @Injectable()
 export class GetPostCommentUseCase {
@@ -22,7 +23,7 @@ export class GetPostCommentUseCase {
     pageSize: number,
     sortBy: string,
     order: string,
-  ): Promise<CommentEntity[]> {
+  ): Promise<GetCommentsDto> {
     const post = await this.postRepository.getPostById(idPost);
     if (!post) {
       throw new PostNotFoundException();
@@ -33,7 +34,19 @@ export class GetPostCommentUseCase {
 
     const finalSortBy = allowedSort.includes(sortBy) ? sortBy : allowedSort[0]
     const finalOrder = (allowedOrder.includes(order) ? order.toUpperCase() : allowedOrder[0].toUpperCase()) as 'ASC' | 'DESC';
-
-    return this.commentService.getPostComment(idPost, page, pageSize, finalSortBy, finalOrder);
+    const comments = await this.commentService.getPostComment(idPost, page, pageSize, finalSortBy, finalOrder);
+    let res : GetCommentsDto = {comments : []};
+    comments.forEach((comment) => res.comments.push({
+      id: comment.id,
+      postId: comment.postId,
+      content: comment.content.toString(),
+      author: {
+        id: comment.author.id,
+        username: comment.author.username.toString(),
+      },
+      createdAt: comment.createdAt.toString(),
+      updatedAt: comment.updatedAt.toString()
+    }))
+    return res;
   }
 }

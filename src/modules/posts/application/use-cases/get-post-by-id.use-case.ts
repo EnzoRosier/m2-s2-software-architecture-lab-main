@@ -5,6 +5,7 @@ import { PostEntity } from '../../domain/entities/post.entity';
 import { PostRepository } from '../../domain/repositories/post.repository';
 import { PostService } from '../../infrastructure/services/post.service';
 import { PostNotFoundException } from '../../domain/exceptions/post-not-found.exception';
+import { UserCannotReadPost } from '../../domain/exceptions/user-cannot-read-post.exception';
 
 @Injectable()
 export class GetPostByIdUseCase {
@@ -24,9 +25,11 @@ export class GetPostByIdUseCase {
       post = await this.postRepository.getPostById(id);
       if (!post) throw new PostNotFoundException();
     }
-
-    if (!user.permissions.posts.canReadPost(post)) {
-      throw new Error('Cannot read this post');
+    
+    if (!user && post.status != "accepted") {
+      throw new UserCannotReadPost()
+    } else if (user && !user.permissions.posts.canReadPost(post)) {
+      throw new UserCannotReadPost()
     }
 
     return post;

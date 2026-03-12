@@ -7,6 +7,7 @@ import { CreateCommentDto } from 'src/modules/posts/application/dtos/create-tags
 import { CommentEntity } from '../../domain/entities/comment.entity';
 import { CommentNotFoundException } from '../../domain/exceptions/comment-not-found.exception';
 import { UserCannotUpdateCommentException } from '../../domain/exceptions/user-cannot-update-comment.exception';
+import { AddCommentDto } from 'src/modules/posts/application/dtos/add-comment.dto';
 
 
 @Injectable()
@@ -20,7 +21,7 @@ export class UpdateCommentUseCase {
     id: string,
     input: CreateCommentDto,
     user: UserEntity,
-  ): Promise<CommentEntity> {
+  ): Promise<AddCommentDto> {
     const comment = await this.commentRepository.getCommentById(id);
     if (!comment) {
       throw new CommentNotFoundException();
@@ -33,7 +34,17 @@ export class UpdateCommentUseCase {
     comment.update(input.content)
     await this.commentRepository.updateComment(id, comment)
     
-    return comment
+    return {
+      id: comment.id,
+      postId: comment.postId,
+      content: comment.content.toString(),
+      author: {
+        id: comment.author.id,
+        username: comment.author.username.toString(),
+      },
+      createdAt: comment.createdAt.toString(),
+      updatedAt: comment.updatedAt.toString()
+    }
 
   }
 }
